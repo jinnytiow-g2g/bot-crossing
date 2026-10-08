@@ -9,8 +9,12 @@
 import claudeCode from './claude-code.mjs'
 import codex from './codex.mjs'
 import cursor from './cursor.mjs'
+import pdtAgents from './pdt-agents.mjs'
 
-export const HARNESSES = [claudeCode, codex, cursor]
+// BOT_CROSSING_ONLY=pdt-agents shows the PDT AI agents and nothing else (8 Oct 2026, Jinny).
+const ALL = [claudeCode, codex, cursor, pdtAgents]
+const ONLY = (process.env.BOT_CROSSING_ONLY || '').split(',').map((s) => s.trim()).filter(Boolean)
+export const HARNESSES = ONLY.length ? ALL.filter((h) => ONLY.includes(h.id)) : ALL
 
 export const harnessById = (id) => HARNESSES.find((h) => h.id === id) || null
 
